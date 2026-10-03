@@ -13,13 +13,36 @@ import { ConstellationSphere } from "./ConstellationSphere";
 
 export function Hero() {
   const [greetingIndex, setGreetingIndex] = useState(0);
+  const [displayedText, setDisplayedText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setGreetingIndex((prev) => (prev + 1) % greetings.length);
-    }, 2800);
-    return () => clearInterval(timer);
-  }, []);
+    const currentWord = greetings[greetingIndex].text;
+    
+    let timer: NodeJS.Timeout;
+    
+    if (isDeleting) {
+      timer = setTimeout(() => {
+        setDisplayedText(currentWord.substring(0, displayedText.length - 1));
+        if (displayedText.length === 0) {
+          setIsDeleting(false);
+          setGreetingIndex((prev) => (prev + 1) % greetings.length);
+        }
+      }, 50);
+    } else {
+      if (displayedText === currentWord) {
+        timer = setTimeout(() => {
+          setIsDeleting(true);
+        }, 2000);
+      } else {
+        timer = setTimeout(() => {
+          setDisplayedText(currentWord.substring(0, displayedText.length + 1));
+        }, 100);
+      }
+    }
+    
+    return () => clearTimeout(timer);
+  }, [displayedText, isDeleting, greetingIndex]);
 
   return (
     <section
@@ -61,8 +84,8 @@ export function Hero() {
             {/* Greeting + Glowing Name */}
             <h1 className="font-bold tracking-tight leading-[1.1] mb-4">
               <span className="block font-normal text-[var(--color-fg)] text-lg sm:text-xl lg:text-2xl mb-1">
-                <span className="inline-block min-w-[4ch] transition-opacity duration-300">
-                  {greetings[greetingIndex].text}
+                <span className="inline-block min-w-[4ch]">
+                  {displayedText}
                 </span>
                 <span
                   aria-hidden="true"
