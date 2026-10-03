@@ -109,16 +109,7 @@ export function Hero() {
               <span className="block font-normal text-[var(--color-fg)] text-lg sm:text-xl lg:text-2xl mb-1">
                 {/* Screen reader only text to prevent constant readout of typing */}
                 <span className="sr-only">Hi, I'm</span>
-                <span aria-hidden="true" className="inline-block whitespace-pre">
-                  {displayedText}
-                </span>
-                <span
-                  aria-hidden="true"
-                  className="animate-caret ml-[0.06em] inline-block h-[0.78em] w-[0.055em] translate-y-[0.04em] rounded-full bg-[var(--color-accent)] align-baseline"
-                />
-                <span aria-hidden="true">
-                  {", I'm"}
-                </span>
+                <span aria-hidden="true" className="inline-block whitespace-pre">{displayedText}</span><span aria-hidden="true" className="animate-caret ml-[0.06em] inline-block h-[0.78em] w-[0.055em] translate-y-[0.04em] rounded-full bg-[var(--color-accent)] align-baseline" /><span aria-hidden="true">{", I'm"}</span>
               </span>
               <span className="glow-text text-3.5xl sm:text-4.5xl lg:text-5xl text-[2rem] sm:text-[2.6rem] lg:text-[3.25rem]">
                 {profile.name}
