@@ -84,7 +84,7 @@ export function Hero() {
             {/* Greeting + Glowing Name */}
             <h1 className="font-bold tracking-tight leading-[1.1] mb-4">
               <span className="block font-normal text-[var(--color-fg)] text-lg sm:text-xl lg:text-2xl mb-1">
-                <span className="inline-block min-w-[4ch]">
+                <span className="inline-block">
                   {displayedText}
                 </span>
                 <span
