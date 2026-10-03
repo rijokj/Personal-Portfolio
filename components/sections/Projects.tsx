@@ -17,8 +17,16 @@ import {
   SiMui,
   SiReactquery,
   SiZod,
+  SiNodedotjs,
+  SiExpress,
+  SiMongodb,
+  SiPostgresql,
+  SiPrisma,
+  SiRedis,
+  SiSocketdotio,
+  SiJsonwebtokens
 } from "react-icons/si";
-import { Layers, LineChart, AreaChart, Code2 } from "lucide-react";
+import { Layers, LineChart, AreaChart, Code2, Database } from "lucide-react";
 
 function getTechBadgeIcon(tech: string) {
   switch (tech) {
@@ -34,6 +42,26 @@ function getTechBadgeIcon(tech: string) {
       return <SiRedux className="size-3.5 shrink-0 text-fg-subtle transition-colors duration-300 group-hover:text-[#764abc]" />;
     case "Three.js":
       return <SiThreedotjs className="size-3.5 shrink-0 text-fg-subtle transition-colors duration-300 group-hover:text-white" />;
+    case "Node.js":
+      return <SiNodedotjs className="size-3.5 shrink-0 text-fg-subtle transition-colors duration-300 group-hover:text-[#339933]" />;
+    case "Express":
+      return <SiExpress className="size-3.5 shrink-0 text-fg-subtle transition-colors duration-300 group-hover:text-white" />;
+    case "MongoDB":
+      return <SiMongodb className="size-3.5 shrink-0 text-fg-subtle transition-colors duration-300 group-hover:text-[#47A248]" />;
+    case "PostgreSQL":
+      return <SiPostgresql className="size-3.5 shrink-0 text-fg-subtle transition-colors duration-300 group-hover:text-[#4169E1]" />;
+    case "Prisma":
+      return <SiPrisma className="size-3.5 shrink-0 text-fg-subtle transition-colors duration-300 group-hover:text-white" />;
+    case "Redis":
+      return <SiRedis className="size-3.5 shrink-0 text-fg-subtle transition-colors duration-300 group-hover:text-[#DC382D]" />;
+    case "Socket.IO":
+      return <SiSocketdotio className="size-3.5 shrink-0 text-fg-subtle transition-colors duration-300 group-hover:text-white" />;
+    case "JWT":
+      return <SiJsonwebtokens className="size-3.5 shrink-0 text-fg-subtle transition-colors duration-300 group-hover:text-white" />;
+    case "Chart.js":
+      return <LineChart className="size-3.5 shrink-0 text-fg-subtle transition-colors duration-300 group-hover:text-[#FF6384]" />;
+    case "BullMQ":
+      return <Database className="size-3.5 shrink-0 text-fg-subtle transition-colors duration-300 group-hover:text-[#f43f5e]" />;
     case "Angular":
       return <SiAngular className="size-3.5 shrink-0 text-fg-subtle transition-colors duration-300 group-hover:text-[#dd0031]" />;
     case "Jest":

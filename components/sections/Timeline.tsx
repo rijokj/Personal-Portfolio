@@ -51,8 +51,7 @@ export function Timeline() {
             The path so far
           </h2>
           <p className="mt-4 text-body text-[var(--color-fg-subtle)] max-w-lg">
-            7 years, one company. QBurst changed who I am, and the people here
-            feel like family.
+            2 years plus experience by sharpening facing difficulties and challenges.
           </p>
         </div>
 

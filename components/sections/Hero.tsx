@@ -98,11 +98,7 @@ export function Hero() {
 
           {/* ─── LEFT: Text ─── */}
           <div className="text-center lg:text-left">
-            {/* Status Pill */}
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[var(--color-border)] bg-[var(--color-overlay)] text-[11px] font-semibold text-[var(--color-fg-muted)] mb-4 shadow-xs backdrop-blur-sm">
-              <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Available for high-impact frontend roles</span>
-            </div>
+            {/* Status Pill Removed */}
 
             {/* Greeting + Glowing Name */}
             <h1 className="font-bold tracking-tight leading-[1.1] mb-4">

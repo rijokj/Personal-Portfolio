@@ -508,19 +508,7 @@ export function ConstellationSphere({ className = "" }: { className?: string }) 
         className="relative z-10 cursor-grab touch-none rounded-full"
       />
 
-      {/* Helper Badge */}
-      {!hasInteracted && (
-        <div className="pointer-events-none absolute -bottom-3 sm:-bottom-4 z-20 inline-flex items-center gap-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)]/85 px-3 py-1 text-[11px] font-medium text-[var(--color-fg-muted)] backdrop-blur-md shadow-lg transition-opacity duration-300 animate-pulse">
-          <RotateCw className="size-3 text-[var(--color-brand)] animate-spin" style={{ animationDuration: "6s" }} />
-          <span>Hover to illuminate • Drag to rotate</span>
-        </div>
-      )}
-
-      {/* Telemetry Badge */}
-      <div className="pointer-events-none absolute -top-1 sm:-top-2 right-2 z-20 hidden sm:inline-flex items-center gap-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-overlay)]/60 px-2.5 py-0.5 text-[10px] font-mono text-[var(--color-fg-subtle)] backdrop-blur-sm">
-        <Sparkles className="size-3 text-violet-400" />
-        <span>{counts.bigNodes} star beacons • {counts.nodes} nodes</span>
-      </div>
+      {/* Badges Removed */}
     </div>
   );
 }
