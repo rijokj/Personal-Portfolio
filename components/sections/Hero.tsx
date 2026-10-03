@@ -57,8 +57,8 @@ export function Hero() {
           setDisplayedText(currentChars.slice(0, currentChars.length - 1).join(""));
         }, 55);
       } else {
-        setGreetingIndex((prev) => (prev + 1) % greetings.length);
         timeout = setTimeout(() => {
+          setGreetingIndex((prev) => (prev + 1) % greetings.length);
           setPhase("typing");
         }, 420);
       }
