@@ -89,7 +89,7 @@ export default function RootLayout({
         <IslandNav />
 
         {/* Main Page Flow */}
-        <div className="relative z-10 flex min-h-screen flex-col overflow-x-hidden">
+        <div className="relative z-10 flex min-h-screen flex-col">
           {children}
         </div>
       </body>
