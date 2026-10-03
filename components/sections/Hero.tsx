@@ -83,15 +83,13 @@ export function Hero() {
 
             {/* Greeting + Glowing Name */}
             <h1 className="font-bold tracking-tight leading-[1.1] mb-4">
-              <span className="block font-normal text-[var(--color-fg)] text-lg sm:text-xl lg:text-2xl mb-1">
-                <span className="inline-block">
-                  {displayedText}
-                </span>
+              <span className="flex items-baseline justify-center lg:justify-start font-normal text-[var(--color-fg)] text-lg sm:text-xl lg:text-2xl mb-1">
+                <span>{displayedText}</span>
                 <span
                   aria-hidden="true"
-                  className="animate-caret ml-1 inline-block h-[0.8em] w-[2px] rounded-full bg-[var(--color-accent)] align-baseline"
+                  className="animate-caret mx-1 h-[0.8em] w-[2px] shrink-0 rounded-full bg-[var(--color-accent)]"
                 />
-                {", I'm"}
+                <span>{", I'm"}</span>
               </span>
               <span className="glow-text text-3.5xl sm:text-4.5xl lg:text-5xl text-[2rem] sm:text-[2.6rem] lg:text-[3.25rem]">
                 {profile.name}
