@@ -13,36 +13,59 @@ import { ConstellationSphere } from "./ConstellationSphere";
 
 export function Hero() {
   const [greetingIndex, setGreetingIndex] = useState(0);
-  const [displayedText, setDisplayedText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [displayedText, setDisplayedText] = useState("Hi");
+  const [phase, setPhase] = useState<"typing" | "holding" | "deleting" | "paused">("paused");
 
   useEffect(() => {
-    const currentWord = greetings[greetingIndex].text;
+    // Initial delay before starting the first deletion
+    const initialDelay = setTimeout(() => {
+      setPhase("deleting");
+    }, 1200);
+    return () => clearTimeout(initialDelay);
+  }, []);
+
+  useEffect(() => {
+    // Respect user's reduced motion preference
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    if (phase === "paused") return;
+
+    let timeout: NodeJS.Timeout;
     
-    let timer: NodeJS.Timeout;
-    
-    if (isDeleting) {
-      timer = setTimeout(() => {
-        setDisplayedText(currentWord.substring(0, displayedText.length - 1));
-        if (displayedText.length === 0) {
-          setIsDeleting(false);
-          setGreetingIndex((prev) => (prev + 1) % greetings.length);
-        }
-      }, 50);
-    } else {
-      if (displayedText === currentWord) {
-        timer = setTimeout(() => {
-          setIsDeleting(true);
-        }, 2000);
+    // Safely segment text by graphemes to support complex characters (e.g., Malayalam, Hindi)
+    const segmenter = new Intl.Segmenter(greetings[greetingIndex].lang, { granularity: "grapheme" });
+    const fullWordChars = Array.from(segmenter.segment(greetings[greetingIndex].text), (e) => e.segment);
+    const currentChars = Array.from(segmenter.segment(displayedText), (e) => e.segment);
+
+    if (phase === "typing") {
+      if (currentChars.length < fullWordChars.length) {
+        timeout = setTimeout(() => {
+          setDisplayedText(fullWordChars.slice(0, currentChars.length + 1).join(""));
+        }, 110);
       } else {
-        timer = setTimeout(() => {
-          setDisplayedText(currentWord.substring(0, displayedText.length + 1));
-        }, 100);
+        setPhase("holding");
+      }
+    } else if (phase === "holding") {
+      timeout = setTimeout(() => {
+        setPhase("deleting");
+      }, 1900);
+    } else if (phase === "deleting") {
+      if (currentChars.length > 0) {
+        timeout = setTimeout(() => {
+          setDisplayedText(currentChars.slice(0, currentChars.length - 1).join(""));
+        }, 55);
+      } else {
+        setGreetingIndex((prev) => (prev + 1) % greetings.length);
+        timeout = setTimeout(() => {
+          setPhase("typing");
+        }, 420);
       }
     }
-    
-    return () => clearTimeout(timer);
-  }, [displayedText, isDeleting, greetingIndex]);
+
+    return () => clearTimeout(timeout);
+  }, [displayedText, phase, greetingIndex]);
 
   return (
     <section
@@ -83,13 +106,19 @@ export function Hero() {
 
             {/* Greeting + Glowing Name */}
             <h1 className="font-bold tracking-tight leading-[1.1] mb-4">
-              <span className="flex items-baseline justify-center lg:justify-start font-normal text-[var(--color-fg)] text-lg sm:text-xl lg:text-2xl mb-1">
-                <span>{displayedText}</span>
+              <span className="block font-normal text-[var(--color-fg)] text-lg sm:text-xl lg:text-2xl mb-1">
+                {/* Screen reader only text to prevent constant readout of typing */}
+                <span className="sr-only">Hi, I'm</span>
+                <span aria-hidden="true" className="inline-block whitespace-pre">
+                  {displayedText}
+                </span>
                 <span
                   aria-hidden="true"
-                  className="animate-caret mx-1 h-[0.8em] w-[2px] shrink-0 rounded-full bg-[var(--color-accent)]"
+                  className="animate-caret ml-[0.06em] inline-block h-[0.78em] w-[0.055em] translate-y-[0.04em] rounded-full bg-[var(--color-accent)] align-baseline"
                 />
-                <span>{", I'm"}</span>
+                <span aria-hidden="true">
+                  {", I'm"}
+                </span>
               </span>
               <span className="glow-text text-3.5xl sm:text-4.5xl lg:text-5xl text-[2rem] sm:text-[2.6rem] lg:text-[3.25rem]">
                 {profile.name}

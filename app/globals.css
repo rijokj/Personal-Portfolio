@@ -201,14 +201,13 @@ body {
   background-clip: text;
 }
 
-/* Animated Caret */
 @keyframes caret-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%, 45% { opacity: 1; }
+  55%, 100% { opacity: 0; }
 }
 
 .animate-caret {
-  animation: caret-blink 1s ease-in-out infinite;
+  animation: 1.1s step-end infinite caret-blink;
 }
 
 /* ── Duplicate drift / marquee definitions removed ──
