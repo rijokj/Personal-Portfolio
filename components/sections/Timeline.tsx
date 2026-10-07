@@ -5,9 +5,19 @@ import { milestones } from "@/data/portfolio";
 
 export function Timeline() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const dotsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const dotsRef = useRef<{ mobile: HTMLDivElement | null; desktop: HTMLDivElement | null }[]>([]);
   const frameRef = useRef<number>(0);
   const [activeIndex, setActiveIndex] = useState(-1);
+
+  // --- CUSTOMIZATION ---
+  // Mobile positioning
+  const mobileLeft = "left-[24px]"; // Controls horizontal alignment of mobile timeline and dots
+  const mobileTop = "top-1.5"; // Controls vertical alignment of mobile dots
+
+  // Desktop positioning
+  const desktopTranslateX = "translate-x-[0px]"; // Moves desktop dots and center line left/right
+  const desktopTranslateY = "translate-y-[0px]"; // Moves desktop dots up/down
+  // ---------------------
 
   const updateProgress = useCallback(() => {
     if (!containerRef.current) return;
@@ -24,12 +34,21 @@ export function Timeline() {
     containerRef.current.style.setProperty("--timeline-track-h", `${progress * 100}%`);
 
     let active = -1;
-    dotsRef.current.forEach((dot, index) => {
-      if (dot) {
-        const dotRect = dot.getBoundingClientRect();
-        // When the dot's center crosses the `start` line (tip of the progressive tracker)
-        if (dotRect.top + dotRect.height / 2 <= start) {
-          active = index;
+    const isMobile = window.innerWidth < 1024; // Tailwind 'lg' breakpoint
+
+    dotsRef.current.forEach((dotObj, index) => {
+      if (dotObj) {
+        // Use the physical element based on the current responsive layout
+        const dot = isMobile ? dotObj.mobile : dotObj.desktop;
+        if (dot) {
+          const dotRect = dot.getBoundingClientRect();
+          // The exact visual center of the dot on the screen
+          const dotPhysicalY = dotRect.top + dotRect.height / 2;
+          
+          // Activate when the tracker line reaches the exact Y coordinate of the dot
+          if (dotPhysicalY <= start) {
+            active = index;
+          }
         }
       }
     });
@@ -69,10 +88,10 @@ export function Timeline() {
         <div ref={containerRef} className="relative">
 
           {/* ── Mobile: Left-anchored vertical line ── */}
-          <div className="lg:hidden absolute left-[24px] top-0 bottom-0 w-[1px] bg-[var(--color-border)] -translate-x-1/2" />
+          <div className={`lg:hidden absolute ${mobileLeft} top-0 bottom-0 w-[1px] bg-[var(--color-border)] -translate-x-1/2`} />
           <div
             aria-hidden="true"
-            className="lg:hidden absolute left-[24px] top-0 w-[2px] rounded-full -translate-x-1/2 pointer-events-none"
+            className={`lg:hidden absolute ${mobileLeft} top-0 w-[2px] rounded-full -translate-x-1/2 pointer-events-none`}
             style={{
               height: "var(--timeline-track-h, 0%)",
               background: "linear-gradient(to bottom, var(--color-brand), var(--color-accent))",
@@ -81,16 +100,19 @@ export function Timeline() {
           />
 
           {/* ── Desktop: Center vertical line ── */}
-          <div className="hidden lg:block absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] bg-[var(--color-border)]" />
-          <div
-            aria-hidden="true"
-            className="hidden lg:block absolute left-1/2 -translate-x-1/2 top-0 w-[2px] rounded-full pointer-events-none"
-            style={{
-              height: "var(--timeline-track-h, 0%)",
-              background: "linear-gradient(to bottom, var(--color-brand), var(--color-accent))",
-              boxShadow: "0 0 8px var(--color-brand), 0 0 18px var(--color-brand)",
-            }}
-          />
+          <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 -translate-x-1/2 pointer-events-none z-0">
+            <div className={`h-full w-[1px] bg-[var(--color-border)] ${desktopTranslateX}`} />
+          </div>
+          <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 -translate-x-1/2 pointer-events-none z-10">
+            <div
+              className={`w-[2px] rounded-full ${desktopTranslateX}`}
+              style={{
+                height: "var(--timeline-track-h, 0%)",
+                background: "linear-gradient(to bottom, var(--color-brand), var(--color-accent))",
+                boxShadow: "0 0 8px var(--color-brand), 0 0 18px var(--color-brand)",
+              }}
+            />
+          </div>
 
           {/* ── Company pill badge at top ── */}
           <div className="relative flex lg:justify-center justify-start mb-10 pl-10 lg:pl-0">
@@ -111,16 +133,17 @@ export function Timeline() {
               const isReached = index <= activeIndex;
 
               return (
-                <div 
-                  key={`${item.year}-${index}`}
-                  ref={(el) => {
-                    dotsRef.current[index] = el;
-                  }}
-                >
+                <div key={`${item.year}-${index}`}>
                   {/* MOBILE: Simple stacked single-column entry */}
                   <div className={`lg:hidden relative pl-[60px] transition-all duration-700 ${isReached ? "opacity-100" : "opacity-30"}`}>
                     {/* Dot on left line */}
-                    <div className="absolute left-[24px] top-1.5 z-10 -translate-x-1/2">
+                    <div 
+                      className={`absolute ${mobileLeft} ${mobileTop} z-10 -translate-x-1/2`}
+                      ref={(el) => {
+                        if (!dotsRef.current[index]) dotsRef.current[index] = { mobile: null, desktop: null };
+                        dotsRef.current[index].mobile = el;
+                      }}
+                    >
                       <div
                         className={`size-3 rounded-full border-2 transition-all duration-500 ${
                           isReached
@@ -171,7 +194,13 @@ export function Timeline() {
                     </div>
 
                     {/* CENTER dot */}
-                    <div className="relative z-10 flex items-center justify-center">
+                    <div 
+                      className={`relative z-10 flex items-center justify-center ${desktopTranslateX} ${desktopTranslateY}`}
+                      ref={(el) => {
+                        if (!dotsRef.current[index]) dotsRef.current[index] = { mobile: null, desktop: null };
+                        dotsRef.current[index].desktop = el;
+                      }}
+                    >
                       <div
                         className={`size-3.5 rounded-full border-2 transition-all duration-500 ${
                           isReached
@@ -212,8 +241,15 @@ export function Timeline() {
           </div>
 
           {/* ── Bottom dot ── */}
-          <div className="flex lg:justify-center justify-start pl-[24px] lg:pl-0">
-            <div className="size-2 rounded-full bg-[var(--color-border-strong)] -translate-x-1/2 lg:-translate-x-0" />
+          <div className="flex lg:justify-center justify-start lg:pl-0" style={{ paddingLeft: `var(--mobile-left, 24px)` }}>
+            {/* The bottom dot on mobile needs to align horizontally but the left class is dynamically applied */}
+          </div>
+          {/* We will apply the mobileLeft class manually to the wrapper below for bottom dot */}
+          <div className="flex lg:justify-center justify-start w-full relative h-4">
+             {/* Mobile bottom dot */}
+             <div className={`lg:hidden absolute ${mobileLeft} top-0 size-2 rounded-full bg-[var(--color-border-strong)] -translate-x-1/2`} />
+             {/* Desktop bottom dot */}
+             <div className={`hidden lg:block absolute left-1/2 top-0 size-2 rounded-full bg-[var(--color-border-strong)] -translate-x-1/2 ${desktopTranslateX}`} />
           </div>
         </div>
       </div>
