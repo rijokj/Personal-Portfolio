@@ -144,11 +144,26 @@
 
 /* Theme-specific visibility guards for zero-flash atmospheric rendering */
 html[data-theme="daybreak"] .galaxy-only {
-  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+  transition: opacity 0.5s ease, visibility 0.5s ease !important;
 }
 
 html[data-theme="galaxy"] .daybreak-only {
-  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+  transition: opacity 0.5s ease, visibility 0.5s ease !important;
+}
+
+/* Ensure they are visible when active */
+html[data-theme="galaxy"] .galaxy-only,
+html[data-theme="daybreak"] .daybreak-only {
+  opacity: 1 !important;
+  pointer-events: auto;
+  visibility: visible !important;
+  transition: opacity 0.5s ease, visibility 0.5s ease !important;
 }
 
 

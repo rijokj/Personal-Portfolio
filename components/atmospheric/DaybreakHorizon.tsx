@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 /**
  * DaybreakHorizon — Warm golden-hour sunset glow fixed at the page bottom.
@@ -10,21 +10,6 @@ import React, { useEffect, useState } from "react";
  * scroll — creating the warm ambient glow visible in all sections.
  */
 export function DaybreakHorizon() {
-  const [isDaybreak, setIsDaybreak] = useState(false);
-
-  useEffect(() => {
-    const check = () =>
-      setIsDaybreak(document.documentElement.dataset.theme === "daybreak");
-    check();
-    const observer = new MutationObserver(check);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-theme"],
-    });
-    return () => observer.disconnect();
-  }, []);
-
-  if (!isDaybreak) return null;
 
   return (
     <div

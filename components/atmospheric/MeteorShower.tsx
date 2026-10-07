@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 /**
  * MeteorShower — CSS-driven shooting stars, Galaxy mode only.
@@ -58,22 +58,6 @@ const meteors = [
 ] as const;
 
 export function MeteorShower() {
-  const [isGalaxy, setIsGalaxy] = useState(true);
-
-  useEffect(() => {
-    const check = () =>
-      setIsGalaxy(document.documentElement.dataset.theme !== "daybreak");
-
-    check();
-    const observer = new MutationObserver(check);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-theme"],
-    });
-    return () => observer.disconnect();
-  }, []);
-
-  if (!isGalaxy) return null;
 
   return (
     <div
