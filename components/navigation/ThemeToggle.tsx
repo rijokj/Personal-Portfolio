@@ -18,43 +18,14 @@ export function ThemeToggle() {
 
   const toggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
     const nextTheme = theme === "galaxy" ? "daybreak" : "galaxy";
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    // View Transitions API circular ripple wipe from clicked button coordinates
-    if (
-      typeof document !== "undefined" &&
-      "startViewTransition" in document &&
-      !prefersReduced
-    ) {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const x = rect.left + rect.width / 2;
-      const y = rect.top + rect.height / 2;
-      const maxRadius = Math.hypot(
-        Math.max(x, window.innerWidth - x),
-        Math.max(y, window.innerHeight - y)
-      );
-
-      document.documentElement.style.setProperty("--wipe-x", `${x.toFixed(1)}px`);
-      document.documentElement.style.setProperty("--wipe-y", `${y.toFixed(1)}px`);
-      document.documentElement.style.setProperty("--wipe-r", `${maxRadius.toFixed(1)}px`);
-      document.documentElement.setAttribute("data-theme-switching", "");
-
-      const transition = document.startViewTransition(() => {
-        flushSync(() => {
-          setTheme(nextTheme);
-          document.documentElement.dataset.theme = nextTheme;
-          localStorage.setItem("theme", nextTheme);
-        });
-      });
-
-      transition.finished.finally(() => {
-        document.documentElement.removeAttribute("data-theme-switching");
-      });
-    } else {
+    
+    // Switch theme instantly without the heavy View Transitions API
+    // This avoids main thread blocking caused by full-page canvas rasterization
+    flushSync(() => {
       setTheme(nextTheme);
       document.documentElement.dataset.theme = nextTheme;
       localStorage.setItem("theme", nextTheme);
-    }
+    });
   };
 
   if (!mounted) {
