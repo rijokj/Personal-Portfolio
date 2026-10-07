@@ -170,14 +170,16 @@ export function Hero() {
 
           {/* ─── RIGHT: Interactive Celestial Visual (Desktop only) ─── */}
           {/* Hidden on mobile/tablet — ambient glow is the atmosphere, not the 3D object */}
-          <div className="hidden lg:grid place-items-center">
+          <div className="relative hidden lg:flex items-center justify-center w-[20rem] xl:w-[22.5rem] aspect-square">
             {/* GALAXY: Interactive 3D Wireframe Constellation Sphere */}
-            <div className="galaxy-only relative col-start-1 row-start-1 size-[20rem] xl:size-[22.5rem] flex items-center justify-center">
+            <div className="galaxy-only absolute inset-0 flex items-center justify-center">
               <ConstellationSphere className="size-full" />
             </div>
 
             {/* DAYBREAK: SVG Sun with breathing halo + orbit rings */}
-            <DaybreakSun className="col-start-1 row-start-1 size-96" />
+            <div className="daybreak-only absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+              <DaybreakSun className="size-96" />
+            </div>
           </div>
         </div>
       </div>
