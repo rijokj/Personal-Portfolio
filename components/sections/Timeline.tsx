@@ -5,26 +5,36 @@ import { milestones } from "@/data/portfolio";
 
 export function Timeline() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
+  const dotsRef = useRef<(HTMLDivElement | null)[]>([]);
   const frameRef = useRef<number>(0);
   const [activeIndex, setActiveIndex] = useState(-1);
 
   const updateProgress = useCallback(() => {
-    if (!containerRef.current || !trackRef.current) return;
+    if (!containerRef.current) return;
 
     const rect = containerRef.current.getBoundingClientRect();
     const windowH = window.innerHeight;
 
+    // The horizontal line representing the tip of the progressive tracker
     const start = windowH * 0.6;
     const scrolled = start - rect.top;
     const total = rect.height;
     const progress = Math.min(1, Math.max(0, scrolled / total));
 
-    trackRef.current.style.height = `${progress * 100}%`;
+    containerRef.current.style.setProperty("--timeline-track-h", `${progress * 100}%`);
 
-    const newActive = Math.floor(progress * milestones.length) - 1;
-    const target = Math.min(newActive, milestones.length - 1);
-    setActiveIndex((prev) => (prev === target ? prev : target));
+    let active = -1;
+    dotsRef.current.forEach((dot, index) => {
+      if (dot) {
+        const dotRect = dot.getBoundingClientRect();
+        // When the dot's center crosses the `start` line (tip of the progressive tracker)
+        if (dotRect.top + dotRect.height / 2 <= start) {
+          active = index;
+        }
+      }
+    });
+    
+    setActiveIndex(active);
   }, []);
 
   useEffect(() => {
@@ -59,13 +69,12 @@ export function Timeline() {
         <div ref={containerRef} className="relative">
 
           {/* ── Mobile: Left-anchored vertical line ── */}
-          <div className="lg:hidden absolute left-4 top-0 bottom-0 w-[1px] bg-[var(--color-border)]" />
+          <div className="lg:hidden absolute left-[24px] top-0 bottom-0 w-[1px] bg-[var(--color-border)] -translate-x-1/2" />
           <div
-            ref={trackRef}
             aria-hidden="true"
-            className="lg:hidden absolute left-4 top-0 w-[2px] rounded-full"
+            className="lg:hidden absolute left-[24px] top-0 w-[2px] rounded-full -translate-x-1/2 pointer-events-none"
             style={{
-              height: "0%",
+              height: "var(--timeline-track-h, 0%)",
               background: "linear-gradient(to bottom, var(--color-brand), var(--color-accent))",
               boxShadow: "0 0 8px var(--color-brand), 0 0 18px var(--color-brand)",
             }}
@@ -84,9 +93,9 @@ export function Timeline() {
           />
 
           {/* ── Company pill badge at top ── */}
-          <div className="relative flex lg:justify-center justify-start mb-10">
+          <div className="relative flex lg:justify-center justify-start mb-10 pl-10 lg:pl-0">
             <div
-              className="relative z-10 ml-[1.625rem] lg:ml-0 inline-flex items-center gap-2 rounded-full border border-[var(--color-border-strong)] bg-[var(--color-surface)] px-5 py-2 text-xs font-bold tracking-widest text-[var(--color-fg)] shadow-lg uppercase"
+              className="relative z-10 inline-flex items-center gap-2 rounded-full border border-[var(--color-border-strong)] bg-[var(--color-surface)] px-5 py-2 text-xs font-bold tracking-widest text-[var(--color-fg)] shadow-lg uppercase"
               style={{
                 boxShadow: "0 0 0 4px var(--color-brand)/15, 0 2px 16px rgba(0,0,0,0.4)",
               }}
@@ -102,11 +111,16 @@ export function Timeline() {
               const isReached = index <= activeIndex;
 
               return (
-                <div key={`${item.year}-${index}`}>
+                <div 
+                  key={`${item.year}-${index}`}
+                  ref={(el) => {
+                    dotsRef.current[index] = el;
+                  }}
+                >
                   {/* MOBILE: Simple stacked single-column entry */}
-                  <div className={`lg:hidden relative pl-10 transition-all duration-700 ${isReached ? "opacity-100" : "opacity-30"}`}>
+                  <div className={`lg:hidden relative pl-[60px] transition-all duration-700 ${isReached ? "opacity-100" : "opacity-30"}`}>
                     {/* Dot on left line */}
-                    <div className="absolute left-[0.875rem] top-1 z-10 -translate-x-1/2">
+                    <div className="absolute left-[24px] top-1.5 z-10 -translate-x-1/2">
                       <div
                         className={`size-3 rounded-full border-2 transition-all duration-500 ${
                           isReached
@@ -198,8 +212,8 @@ export function Timeline() {
           </div>
 
           {/* ── Bottom dot ── */}
-          <div className="flex lg:justify-center justify-start pl-4">
-            <div className="size-2 rounded-full bg-[var(--color-border-strong)]" />
+          <div className="flex lg:justify-center justify-start pl-[24px] lg:pl-0">
+            <div className="size-2 rounded-full bg-[var(--color-border-strong)] -translate-x-1/2 lg:-translate-x-0" />
           </div>
         </div>
       </div>
