@@ -6,7 +6,9 @@ import { milestones } from "@/data/portfolio";
 export function Timeline() {
   const containerRef = useRef<HTMLDivElement>(null);
   const dotsRef = useRef<{ mobile: HTMLDivElement | null; desktop: HTMLDivElement | null }[]>([]);
-  const frameRef = useRef<number>(0);
+  const lastScrollY = useRef(0);
+  const progressRef = useRef(0);
+  const ticking = useRef(false);
   const [activeIndex, setActiveIndex] = useState(-1);
 
   // --- CUSTOMIZATION ---
@@ -22,6 +24,10 @@ export function Timeline() {
   const updateProgress = useCallback(() => {
     if (!containerRef.current) return;
 
+    const scrollY = window.scrollY;
+    const scrollingDown = scrollY > lastScrollY.current;
+    const scrollingUp = scrollY < lastScrollY.current;
+
     const rect = containerRef.current.getBoundingClientRect();
     const windowH = window.innerHeight;
 
@@ -29,9 +35,27 @@ export function Timeline() {
     const start = windowH * 0.6;
     const scrolled = start - rect.top;
     const total = rect.height;
-    const progress = Math.min(1, Math.max(0, scrolled / total));
+    let newProgress = Math.min(1, Math.max(0, scrolled / total));
 
-    containerRef.current.style.setProperty("--timeline-track-h", `${progress * 100}%`);
+    if (scrollingDown) {
+      if (newProgress >= progressRef.current) {
+        progressRef.current = newProgress;
+      } else {
+        newProgress = progressRef.current;
+      }
+    } else if (scrollingUp) {
+      if (newProgress <= progressRef.current) {
+        progressRef.current = newProgress;
+      } else {
+        newProgress = progressRef.current;
+      }
+    } else {
+      progressRef.current = newProgress;
+    }
+
+    lastScrollY.current = scrollY;
+
+    containerRef.current.style.setProperty("--timeline-track-h", `${newProgress * 100}%`);
 
     let active = -1;
     const isMobile = window.innerWidth < 1024; // Tailwind 'lg' breakpoint
@@ -58,8 +82,13 @@ export function Timeline() {
 
   useEffect(() => {
     const onScroll = () => {
-      cancelAnimationFrame(frameRef.current);
-      frameRef.current = requestAnimationFrame(updateProgress);
+      if (!ticking.current) {
+        requestAnimationFrame(() => {
+          updateProgress();
+          ticking.current = false;
+        });
+        ticking.current = true;
+      }
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -67,7 +96,6 @@ export function Timeline() {
 
     return () => {
       window.removeEventListener("scroll", onScroll);
-      cancelAnimationFrame(frameRef.current);
     };
   }, [updateProgress]);
 
