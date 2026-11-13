@@ -3,7 +3,7 @@ import React from "react";
 /**
  * Nebulae — Global ambient color wash.
  *
- * Reference: milinjoseph.com shows a near-black background with color only
+ * Cosmic aesthetic: A near-black background with color only
  * appearing as faint localized glows in specific spots — NOT spread everywhere.
  *
  * Rules:

@@ -1,7 +1,7 @@
-# Design Specification: Milin Joseph Portfolio (`milinjoseph.com`)
+# Design Specification: Rijo K J Portfolio (`rijokj`)
 
 > **Document Version:** 1.0.0  
-> **Source Target:** [https://www.milinjoseph.com/](https://www.milinjoseph.com/)  
+> **Source Target:** [https://github.com/rijokj](https://github.com/rijokj)  
 > **Created For:** Portfolio Workspace (`c:/cv-projects/portfolio`)  
 > **Aesthetic Profile:** Cosmic Minimalist × Solar Editorial
 
@@ -9,7 +9,7 @@
 
 ## 1. Executive Summary & Design Philosophy
 
-The portfolio of Milin Joseph exemplifies modern frontend craftsmanship. It merges high-fidelity visual luxury with raw web performance. Instead of relying on heavy 3D canvases or bloated libraries, the website achieves an immersive, award-winning feel through pure CSS hardware acceleration, fluid typography, bespoke SVG illustrations, and purposeful micro-interactions.
+The portfolio of Rijo K J exemplifies modern frontend craftsmanship. It merges high-fidelity visual luxury with raw web performance. Instead of relying on heavy 3D canvases or bloated libraries, the website achieves an immersive, award-winning feel through pure CSS hardware acceleration, fluid typography, bespoke SVG illustrations, and purposeful micro-interactions.
 
 ### Core Design Principles
 1. **Duality of Experience (Galaxy vs. Daybreak):** Not a simple inverted dark/light mode, but two fully conceptualized themes:
@@ -189,7 +189,7 @@ The page gives a sense of continuous space with five distinct z-index tiers:
 
 ### Component 2: Hero Section (`#intro`)
 - **Greeting Rotator:** Multilingual greeting cycling through English (*Hi*), Malayalam (*നമസ്കാരം*), Hindi (*नमस्ते*), Italian (*Ciao*), and French (*Bonjour*) with dynamic language font class swaps and an active accent caret.
-- **Display Typography:** High-contrast greeting paired with iridescent gradient text `Milin Joseph`.
+- **Display Typography:** High-contrast greeting paired with iridescent gradient text `Rijo K J`.
 - **Sub-headline:** Punchy, engineer-centric statement:
   > *"I build SPAs that load instantly. Microfrontends that scale. PWAs that work offline. Accessibility that isn't an afterthought. And yes, it works on Safari."*
 - **Action Buttons:**
@@ -211,14 +211,14 @@ The page gives a sense of continuous space with five distinct z-index tiers:
 - **Animation Behavior:** Numbers start at 0 and roll up with an easing counter when scrolled into view.
 
 ### Component 5: Experience Timeline ("The path so far" - `#experience`)
-- **Narrative Headline:** *"7 years, one company. QBurst changed who I am, and the people here feel like family."*
+- **Narrative Headline:** *"3+ years of experience building responsive web applications, robust APIs, and scalable platforms."*
 - **Milestone Architecture:**
-  - `2019` — Trainee (*"Walked in knowing almost nothing."*)
-  - `2020` — Software Engineer (*"First production code, first real users."*)
-  - `2022` — Senior Engineer (*"Owning features end to end."*)
-  - `2025` — Lead Engineer (*"Leading frontend, still learning daily."*)
-  - `2026` — Still at QBurst, still building.
-- **Visuals:** Vertical connecting laser line with pulsating checkpoint nodes and brand red accent for QBurst (`#ed1c24`).
+  - `Joined 2016` — Calicut University (*"Undergraduate studies in Commerce (Final exam pending)."*)
+  - `May 2022 – Oct 2022` — Laxmiinfotek (*"Full Stack Web Development Course."*)
+  - `Nov 2022 – Jan 2023` — Laxmiinfotek (*"MERN Stack Intern."*)
+  - `Apr 2023 – Jun 2025` — Verdant IT Solutions (*"MERN Stack Developer."*)
+  - `Aug 2025 – Oct 2026` — Figmark Infotek Pvt Ltd (*"MERN Stack Developer."*)
+- **Visuals:** Vertical connecting laser line with pulsating checkpoint nodes and brand accent glows.
 
 ### Component 6: Interactive Project Showcase ("Things I've built" - `#projects`)
 Each project features a deep dive card combining live tags, narrative summaries, and interactive custom wireframe previews:
@@ -266,14 +266,14 @@ Each project features a deep dive card combining live tags, narrative summaries,
   - Upper saucer constructed with overlaid blurred SVG ellipses and gradient rims.
   - Light beam created with CSS `clip-path: polygon(45% 0%, 55% 0%, 88% 100%, 12% 100%)` and translucent gradient from `--color-shine`.
   - Floating mail icon positioned at the focal center of the beam.
-  - Direct mailto link: `mailto:milinshaju@gmail.com?subject=Hello%20Milin`.
+  - Direct mailto link: `mailto:rijokjolly@gmail.com?subject=Hello%20Rijo`.
   - Interactive toast/status: *"Your message has been beamed aboard."*
 
 ### Component 10: Stardust Footer (`<footer>`)
 - **Left Column:** Quick navigation links: *Least Count · Guest book · Testimonials*.
 - **Right Column:** Direct contact channels: *LinkedIn · Instagram · Email*.
 - **Bottom Colophon:**
-  - `© 2026 Milin Joseph. Made in Kerala.`
+  - `© 2026 Rijo K J. Made in Kerala.`
   - `Built with Next.js, Tailwind, and a little stardust.`
 
 ---
@@ -319,7 +319,7 @@ portfolio/
 │   │   ├── HeroSection.tsx     # Typewriter multilingual greeting & glowing display text
 │   │   ├── TechMarquee.tsx     # Dual-buffered infinite icon carousel
 │   │   ├── StatsSection.tsx    # Animated roll-up counters
-│   │   ├── TimelineSection.tsx # QBurst career milestones
+│   │   ├── TimelineSection.tsx # Career journey milestones
 │   │   ├── ProjectCard.tsx     # Stage card with custom interactive wireframe
 │   │   ├── Testimonial3D.tsx   # 3D perspective card slider
 │   │   ├── GuestbookWall.tsx   # Signatures wall

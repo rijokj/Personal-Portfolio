@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useState, useEffect, useId } from "react";
-import { ArrowUpRight, Sparkles, X, Heart, Send } from "lucide-react";
+import { ArrowUpRight, Sparkles, X, Heart, Send, LogOut } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
+import { User } from "@supabase/supabase-js";
 
 // --- Hash Algorithm for 10 Generative Cosmic Variants ---
 export function wallVariant(id: string): number {
@@ -779,29 +781,64 @@ function GuestbookModal({
   isOpen,
   onClose,
   onSubmit,
+  user,
 }: {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (name: string, message: string) => void;
+  user: User | null;
 }) {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const supabase = createClient();
+
+  useEffect(() => {
+    if (user?.user_metadata?.full_name) {
+      setName(user.user_metadata.full_name);
+    }
+  }, [user]);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSignIn = async () => {
+    if (!supabase) return;
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !message.trim()) return;
 
     setIsSubmitting(true);
-    setTimeout(() => {
+    
+    if (supabase) {
+      // Attempt to insert into Supabase
+      const { error } = await supabase.from('guestbook').insert([
+        { display_name: name.trim(), message: message.trim(), user_id: user?.id }
+      ]);
+
+      if (!error) {
+        onSubmit(name.trim(), message.trim());
+        setMessage("");
+        onClose();
+      } else {
+        console.error("Error submitting guestbook entry:", error);
+      }
+    } else {
+      // Local fallback mode when Supabase is not configured
       onSubmit(name.trim(), message.trim());
       setName("");
       setMessage("");
-      setIsSubmitting(false);
       onClose();
-    }, 400);
+    }
+    
+    setIsSubmitting(false);
   };
 
   return (
@@ -831,66 +868,85 @@ function GuestbookModal({
           </div>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-          <div>
-            <label className="block text-xs font-semibold text-[var(--color-fg-muted)] mb-1.5">
-              Your Name / Handle
-            </label>
-            <input
-              type="text"
-              required
-              maxLength={40}
-              placeholder="e.g. Elena Rostova"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-2.5 text-sm text-[var(--color-fg)] placeholder:text-[var(--color-fg-faint)] focus:border-[var(--color-accent)] focus:outline-none transition-colors"
-            />
+        {supabase && !user ? (
+          <div className="mt-8 flex flex-col items-center justify-center py-6">
+            <p className="mb-6 text-center text-sm text-[var(--color-fg-subtle)]">
+              You must be signed in to leave a message.
+            </p>
+            <button
+              onClick={handleSignIn}
+              className="inline-flex items-center gap-3 rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-black shadow-md hover:bg-gray-100 transition-colors"
+            >
+              <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+              </svg>
+              Sign in with Google
+            </button>
           </div>
-
-          <div>
-            <div className="flex justify-between items-center mb-1.5">
-              <label className="text-xs font-semibold text-[var(--color-fg-muted)]">
-                Your Note
+        ) : (
+          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+            <div>
+              <label className="block text-xs font-semibold text-[var(--color-fg-muted)] mb-1.5">
+                Your Name / Handle
               </label>
-              <span className="text-[11px] text-[var(--color-fg-faint)]">
-                {message.length} / 180 chars
-              </span>
+              <input
+                type="text"
+                required
+                maxLength={40}
+                placeholder="e.g. Elena Rostova"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-2.5 text-sm text-[var(--color-fg)] placeholder:text-[var(--color-fg-faint)] focus:border-[var(--color-accent)] focus:outline-none transition-colors"
+              />
             </div>
-            <textarea
-              required
-              rows={3}
-              maxLength={180}
-              placeholder="The cosmic theme is so calming..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-2.5 text-sm text-[var(--color-fg)] placeholder:text-[var(--color-fg-faint)] focus:border-[var(--color-accent)] focus:outline-none transition-colors resize-none"
-            />
-          </div>
 
-          <div className="flex items-center justify-between pt-2">
-            <span className="text-xs text-[var(--color-fg-faint)] flex items-center gap-1.5">
-              <Heart className="size-3 text-rose-500" /> Stardust wall
-            </span>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={onClose}
-                className="rounded-full px-4 py-2 text-xs font-medium text-[var(--color-fg-muted)] hover:bg-[var(--color-overlay)] transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[var(--color-brand)] to-[var(--color-accent)] px-5 py-2 text-xs font-bold text-white shadow-md hover:opacity-95 active:scale-95 disabled:opacity-50 transition-all"
-              >
-                <span>{isSubmitting ? "Signing..." : "Sign Wall"}</span>
-                <Send size={13} />
-              </button>
+            <div>
+              <div className="flex justify-between items-center mb-1.5">
+                <label className="text-xs font-semibold text-[var(--color-fg-muted)]">
+                  Your Note
+                </label>
+                <span className="text-[11px] text-[var(--color-fg-faint)]">
+                  {message.length} / 180 chars
+                </span>
+              </div>
+              <textarea
+                required
+                rows={3}
+                maxLength={180}
+                placeholder="The cosmic theme is so calming..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-2.5 text-sm text-[var(--color-fg)] placeholder:text-[var(--color-fg-faint)] focus:border-[var(--color-accent)] focus:outline-none transition-colors resize-none"
+              />
             </div>
-          </div>
-        </form>
+
+            <div className="flex items-center justify-between pt-2">
+              <span className="text-xs text-[var(--color-fg-faint)] flex items-center gap-1.5">
+                <Heart className="size-3 text-rose-500" /> Stardust wall
+              </span>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="rounded-full px-4 py-2 text-xs font-medium text-[var(--color-fg-muted)] hover:bg-[var(--color-overlay)] transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[var(--color-brand)] to-[var(--color-accent)] px-5 py-2 text-xs font-bold text-white shadow-md hover:opacity-95 active:scale-95 disabled:opacity-50 transition-all"
+                >
+                  <span>{isSubmitting ? "Signing..." : "Sign Wall"}</span>
+                  <Send size={13} />
+                </button>
+              </div>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );
@@ -901,6 +957,43 @@ export function Guestbook() {
   const [entries, setEntries] = useState<GuestbookEntry[]>(initialGuestbookEntries);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const supabase = createClient();
+
+  useEffect(() => {
+    if (!supabase) return;
+
+    // Check initial user
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data?.user ?? null);
+    });
+
+    // Listen to auth state changes
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    // Fetch live entries from Supabase
+    supabase
+      .from("guestbook")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .then(({ data, error }) => {
+        if (data && !error && data.length > 0) {
+          // You can merge with initialGuestbookEntries or replace entirely.
+          // Replacing entirely ensures real data is displayed.
+          setEntries((prev) => {
+            // Only merge if the new data isn't already present
+            const newData = data as GuestbookEntry[];
+            return [...newData, ...initialGuestbookEntries.filter(i => !newData.find(n => n.id === i.id))];
+          });
+        }
+      });
+
+    return () => {
+      authListener?.subscription?.unsubscribe();
+    };
+  }, [supabase]);
 
   const handleSignGuestbook = (name: string, message: string) => {
     const newEntry: GuestbookEntry = {
@@ -913,6 +1006,13 @@ export function Guestbook() {
     setEntries((prev) => [newEntry, ...prev]);
     setToastMessage("✨ Your mark has been etched into the cosmos!");
     setTimeout(() => setToastMessage(null), 5000);
+  };
+
+  const handleSignOut = async () => {
+    if (supabase) {
+      await supabase.auth.signOut();
+    }
+    setUser(null);
   };
 
   // Build the list of cards for the marquee
@@ -946,17 +1046,36 @@ export function Guestbook() {
     <section id="guestbook" className="relative py-20 max-sm:scroll-mt-6 sm:py-32">
       <div className="mx-auto max-w-8xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="mb-8 max-w-3xl sm:mb-10 text-left">
-          <div className="flex items-center gap-4 sm:gap-5">
-            <h2 className="font-sans font-bold text-title glow-heading -mb-[0.15em] w-fit pb-[0.15em] text-balance">
-              Leave a mark
-            </h2>
+        <div className="mb-8 max-w-3xl sm:mb-10 text-left flex flex-col sm:flex-row sm:items-end justify-between">
+          <div>
+            <div className="flex items-center gap-4 sm:gap-5">
+              <h2 className="font-sans font-bold text-title glow-heading -mb-[0.15em] w-fit pb-[0.15em] text-balance">
+                Leave a mark
+              </h2>
+            </div>
+            <div className="mt-4">
+              <p className="text-body text-[var(--color-fg-subtle)]">
+                Sign the wall just to say you were here. It does not have to be about work.
+              </p>
+            </div>
           </div>
-          <div className="mt-4">
-            <p className="text-body text-[var(--color-fg-subtle)]">
-              Sign the wall just to say you were here. It does not have to be about work.
-            </p>
-          </div>
+          
+          {user && (
+            <div className="mt-6 sm:mt-0 flex items-center gap-3">
+              <div className="flex items-center gap-2">
+                {user.user_metadata?.avatar_url && (
+                  <img src={user.user_metadata.avatar_url} alt="Avatar" className="size-8 rounded-full border border-[var(--color-border)]" />
+                )}
+                <span className="text-sm font-medium text-[var(--color-fg)]">{user.user_metadata?.full_name}</span>
+              </div>
+              <button 
+                onClick={handleSignOut}
+                className="flex items-center gap-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-xs text-[var(--color-fg-subtle)] hover:text-[var(--color-fg)] transition-colors"
+              >
+                <LogOut size={12} /> Sign out
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Toast confirmation */}
@@ -1001,6 +1120,7 @@ export function Guestbook() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleSignGuestbook}
+        user={user}
       />
     </section>
   );

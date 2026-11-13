@@ -108,7 +108,7 @@ export function Timeline() {
             The path so far
           </h2>
           <p className="mt-4 text-body text-[var(--color-fg-subtle)] max-w-lg">
-            2 years plus experience by sharpening facing difficulties and challenges.
+            3+ years of experience building responsive web applications, robust APIs, and scalable platforms.
           </p>
         </div>
 
@@ -150,7 +150,7 @@ export function Timeline() {
                 boxShadow: "0 0 0 4px var(--color-brand)/15, 0 2px 16px rgba(0,0,0,0.4)",
               }}
             >
-              {milestones[0]?.company ?? "QBurst"}
+              Career Journey
             </div>
           </div>
 
@@ -190,6 +190,9 @@ export function Timeline() {
                     <h3 className="text-base sm:text-lg font-bold text-[var(--color-fg)]">
                       {item.role}
                     </h3>
+                    <p className="text-xs font-semibold text-[var(--color-accent)] mt-0.5">
+                      {item.company}
+                    </p>
                     <p className="mt-1.5 text-sm text-[var(--color-fg-subtle)] leading-relaxed">
                       {item.note}
                     </p>
@@ -214,7 +217,10 @@ export function Timeline() {
                           <h3 className="text-lg xl:text-xl font-bold text-[var(--color-fg)]">
                             {item.role}
                           </h3>
-                          <p className="mt-1.5 text-sm text-[var(--color-fg-subtle)] leading-relaxed max-w-[220px] ml-auto">
+                          <p className="text-xs font-semibold text-[var(--color-accent)] mt-0.5">
+                            {item.company}
+                          </p>
+                          <p className="mt-1.5 text-sm text-[var(--color-fg-subtle)] leading-relaxed max-w-[280px] ml-auto">
                             {item.note}
                           </p>
                         </>
@@ -256,7 +262,10 @@ export function Timeline() {
                           <h3 className="text-lg xl:text-xl font-bold text-[var(--color-fg)]">
                             {item.role}
                           </h3>
-                          <p className="mt-1.5 text-sm text-[var(--color-fg-subtle)] leading-relaxed max-w-[220px]">
+                          <p className="text-xs font-semibold text-[var(--color-accent)] mt-0.5">
+                            {item.company}
+                          </p>
+                          <p className="mt-1.5 text-sm text-[var(--color-fg-subtle)] leading-relaxed max-w-[280px]">
                             {item.note}
                           </p>
                         </>

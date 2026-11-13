@@ -77,15 +77,15 @@ export const profile: Profile = {
   name: "Rijo K J",
   givenName: "Rijo",
   familyName: "K J",
-  title: "MERN Full Stack Developer",
-  headline: "MERN Full Stack Developer",
-  bio: "Full Stack MERN Developer with 2+ years of experience building role-based business applications, enterprise workflow systems, and scalable web platforms.",
+  title: "MERN Stack Developer",
+  headline: "MERN Stack Developer | React.js, Node.js, PostgreSQL",
+  bio: "Full Stack Developer with 3+ years of experience building responsive web applications with React.js, Node.js, and Express.js. Proficient in RESTful API design, JWT authentication, PostgreSQL, and MongoDB, with hands-on experience in Redux, React Query, Redis caching, and BullMQ background jobs.",
   subtitle:
-    "Proficient in React.js, Node.js, Express.js, MongoDB, and PostgreSQL, with hands-on experience in authentication systems, REST API development, and real-time workflows.",
-  location: "Kerala, India",
+    "Full Stack Developer with 3+ years of experience building scalable web applications with React, Node.js, Express, and modern databases. Focused on clean, maintainable code and quick adaptation to new tools.",
+  location: "Dubai, UAE",
   email: "rijokjolly@gmail.com",
-  linkedin: "https://linkedin.com/in/rijo-k-j",
-  github: "https://github.com/rijokjolly",
+  linkedin: "https://www.linkedin.com/in/rijokjolly",
+  github: "https://github.com/rijokj",
   instagram: "https://www.instagram.com/rijokjolly/",
 };
 
@@ -125,35 +125,41 @@ export const moreLinks: MoreLink[] = [
 ];
 
 export const stats: StatItem[] = [
-  { value: 2, suffix: "+", label: "Years of building" },
+  { value: 3, suffix: "+", label: "Years of building" },
   { value: 3, suffix: "+", label: "Projects shipped" },
   { value: 100, suffix: "%", label: "Commitment" },
 ];
 
 export const milestones: Milestone[] = [
   {
-    year: "2016-2019",
+    year: "Joined 2016",
     role: "Bachelor of Commerce (B.Com)",
     company: "Calicut University",
-    note: "Graduated with a Bachelor of Commerce degree.",
+    note: "Undergraduate studies in Commerce (Final exam pending).",
   },
   {
-    year: "2023-2024",
-    role: "Full Stack Web Development",
-    company: "Brototype",
-    note: "Intensive training in MERN Stack web development.",
+    year: "May 2022 – Oct 2022",
+    role: "Full Stack Web Development Course",
+    company: "Laxmiinfotek",
+    note: "Comprehensive MERN stack training covering React, Node.js, Express, MongoDB, and RESTful API architecture.",
   },
   {
-    year: "Jun 2024",
+    year: "Nov 2022 – Jan 2023",
+    role: "MERN Stack Intern",
+    company: "Laxmiinfotek",
+    note: "Developed RESTful APIs with Node.js/Express, JWT/session authentication, and responsive React.js interfaces.",
+  },
+  {
+    year: "Apr 2023 – Jun 2025",
     role: "MERN Stack Developer",
     company: "Verdant IT Solutions",
-    note: "Developed learning management systems, REST APIs, and integrated AI-powered language analysis features.",
+    note: "Built full-stack LMS portals, RBAC, protected routes, OTP recovery workflows, and scalable MongoDB schemas.",
   },
   {
-    year: "Aug 2025",
+    year: "Aug 2025 – Oct 2026",
     role: "MERN Stack Developer",
     company: "Figmark Infotek Pvt Ltd",
-    note: "Designing and implementing secure authentication systems, RBAC, and responsive admin dashboards.",
+    note: "Engineered scalable web apps, secure authentication, multi-user RBAC workflows, and responsive admin dashboards.",
   },
 ];
 

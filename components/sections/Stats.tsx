@@ -24,7 +24,7 @@ function StatCounter({ value, suffix }: { value: number; suffix: string }) {
           const animate = (currentTime: number) => {
             const elapsed = currentTime - startTime;
             const progress = Math.min(1, elapsed / duration);
-            // Smooth easeOutCubic curve matching Milin Joseph reference
+            // Smooth easeOutCubic curve for smooth stat roll-up
             const eased = 1 - Math.pow(1 - progress, 3);
             setCount(Math.round(value * eased));
 
