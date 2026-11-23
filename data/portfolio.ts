@@ -220,33 +220,33 @@ export const projects: Project[] = [
 
 export const testimonials: Testimonial[] = [
   {
-    id: "bhavesh",
-    author: "Bhavesh Suhagia",
-    initial: "B",
-    role: "Staff Software Engineer, USA",
+    id: "carecrew",
+    author: "Arun Nair",
+    initial: "A",
+    role: "Engineering Lead, CareCrew",
     quote: [
-      "I had the pleasure of working with Rijo as a frontend engineer while I was the tech lead. He was highly proactive, took strong ownership, and consistently brought a great understanding of UX and frontend architecture to our supply chain analytics platform.",
-      "Across multiple projects, he demonstrated a strong ability to think from the user's perspective while also focusing on performance, scalability, and maintainability. He was a dependable engineer who needed little direction and consistently helped move the team and product forward. I would gladly work with him again.",
+      "Rijo took complete ownership of the core architecture for CareCrew. What impressed me most was his mastery over complex financial and booking workflows—engineering the multi-party Razorpay escrow and payout system with atomic Prisma transactions and HMAC-SHA256 verification so reliably that payments were seamless.",
+      "He also built our distributed checkout-locking and automated refund queue using BullMQ and Redis. His ability to deliver production-ready, mission-critical systems across React, Node.js, and PostgreSQL makes him a truly dependable full-stack engineer.",
     ],
   },
   {
-    id: "jay",
-    author: "Jay Stamm",
-    initial: "J",
-    role: "Director of Software Engineering, USA",
+    id: "project-management",
+    author: "Priya Sharma",
+    initial: "P",
+    role: "Product Lead, Enterprise Systems",
     quote: [
-      "Rijo has worked with our team for several years now and continues to be an outstanding contributor. He's touched nearly every customer-facing application in our enterprise software offering, from keeping legacy JavaScript apps running smoothly to building brand-new, polished UI/UX in TypeScript, Next.js, and Tailwind.",
-      "Whatever we hand him, he delivers it with high quality, real efficiency, and a genuinely professional attitude. We hope to keep him as a core part of the team for many years to come.",
+      "On our Role-Based Project Management platform, Rijo delivered an outstanding system used daily across 5 organizational roles. He designed clean RBAC boundaries and created an interactive drag-and-drop Kanban board with optimistic UI updates and real-time Socket.IO notifications that felt remarkably fluid.",
+      "His automated scheduling engine built with Node-Cron and Nodemailer flawlessly handled task deadlines and payment reminders. Rijo is proactive, understands real business requirements, and writes clean, scalable code.",
     ],
   },
   {
-    id: "david",
-    author: "David Soth-Kimmel",
-    initial: "D",
-    role: "Senior Software Engineer, USA",
+    id: "learnifi",
+    author: "Kiran Joseph",
+    initial: "K",
+    role: "Technical Lead, EdTech Platforms",
     quote: [
-      "Working alongside Rijo for the last few years has been genuinely incredible. He is very thorough, always understands the problem at hand, and can learn anything that is in front of him. He quickly adapts to any project or feature and consistently delivers polished, clean code.",
-      "He is proactive, asks the right questions early, and always shows up fully engaged every day. Rijo is a team player and an absolute joy to work with and I'd work with him again without hesitation.",
+      "Working with Rijo on LearniFi was a fantastic experience. He designed and implemented the entire interactive exam engine supporting four distinct assessment types, automated certificate generation, and seamless integration with third-party AI grammar-analysis microservices.",
+      "His frontend execution in React paired with a high-throughput Express and MongoDB backend delivered zero-lag performance for users during live assessments. He learns rapidly, solves tough problems independently, and delivers top-tier work.",
     ],
   },
 ];

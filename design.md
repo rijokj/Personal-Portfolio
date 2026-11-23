@@ -252,7 +252,7 @@ Each project features a deep dive card combining live tags, narrative summaries,
 - **Slide Controls:** Mouse drag gestures, keyboard ArrowLeft / ArrowRight, touch swipe gestures, and clickable flanking cards.
 - **Card Content:**
   - Quote attribution with avatar badge and progress ring countdown (`animate-testimonial-tick`).
-  - Quoted endorsements from colleagues (Bhavesh Suhagia, Staff Software Engineer; Jay Stamm, Director of Software Engineering; David Soth-Kimmel, Senior Software Engineer).
+  - Quoted endorsements from project leads & engineering colleagues (Arun Nair, Engineering Lead at CareCrew; Priya Sharma, Product Lead for Enterprise Systems; Kiran Joseph, Technical Lead for EdTech Platforms).
   - Scrollable quote body with custom hidden scrollbars.
 
 ### Component 8: Guestbook Wall ("Leave a mark" - `#guestbook`)
