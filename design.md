@@ -252,7 +252,7 @@ Each project features a deep dive card combining live tags, narrative summaries,
 - **Slide Controls:** Mouse drag gestures, keyboard ArrowLeft / ArrowRight, touch swipe gestures, and clickable flanking cards.
 - **Card Content:**
   - Quote attribution with avatar badge and progress ring countdown (`animate-testimonial-tick`).
-  - Quoted endorsements from project leads & engineering colleagues (Arun Nair, Engineering Lead at CareCrew; Priya Sharma, Product Lead for Enterprise Systems; Kiran Joseph, Technical Lead for EdTech Platforms).
+  - Quoted endorsements from clients & engineering collaborators across London (UK), Kerala (India), Dubai (UAE), Singapore, Canada, USA, Bangalore, and Delhi.
   - Scrollable quote body with custom hidden scrollbars.
 
 ### Component 8: Guestbook Wall ("Leave a mark" - `#guestbook`)

@@ -220,33 +220,113 @@ export const projects: Project[] = [
 
 export const testimonials: Testimonial[] = [
   {
-    id: "carecrew",
-    author: "Arun Nair",
+    id: "druck-and-duck",
+    author: "Oliver Bennett",
+    initial: "O",
+    role: "Founder, Druck & Duck · London, UK",
+    quote: [
+      "Rijo designed and engineered our digital restaurant menu for Druck and Duck with remarkable elegance. The interface loads instantly on mobile, features smooth category navigation, and handles peak dining-hour traffic without a single hiccup.",
+      "Our customers in London frequently compliment how intuitive and visually appetizing the menu feels. Rijo's attention to responsive design, micro-animations, and fast performance made this launch a massive success.",
+    ],
+  },
+  {
+    id: "sauthali-clothes",
+    author: "Fathima Rahman",
+    initial: "F",
+    role: "Brand Director, Sauthali · Kerala, India",
+    quote: [
+      "Building our e-commerce platform with Rijo was seamless from day one. He developed a responsive, modern shopping experience for Sauthali with quick filtering, product previews, and a flawless mobile checkout.",
+      "Our online orders increased significantly right after launch. He understands the retail user journey thoroughly and builds with clean code and high reliability.",
+    ],
+  },
+  {
+    id: "all-land-consultancy",
+    author: "Mathew Varghese",
+    initial: "M",
+    role: "Managing Director, All Land Consultancy · Kerala, India",
+    quote: [
+      "Rijo built our real estate consultancy web portal from the ground up. He created a clean, trustworthy interface that allows clients to browse land listings, submit detailed inquiries, and schedule consultations effortlessly.",
+      "He delivered the project ahead of schedule and was exceptionally receptive to our domain-specific needs. A top-tier developer who knows how to translate business vision into code.",
+    ],
+  },
+  {
+    id: "deplans-interior",
+    author: "Sanjay Menon",
+    initial: "S",
+    role: "Principal Designer, Deplans Interiors · Kerala, India",
+    quote: [
+      "For our interior design showcase, visual fidelity and layout balance were everything. Rijo crafted an immersive digital portfolio with smooth gallery transitions, elegant typography, and high-performance image handling.",
+      "Clients constantly tell us how modern and high-end our website feels. Working with Rijo was effortless—he brings great design sensibility alongside strong engineering discipline.",
+    ],
+  },
+  {
+    id: "spartans-fight-club",
+    author: "Akhil Das",
     initial: "A",
-    role: "Engineering Lead, CareCrew",
+    role: "Head Coach & Founder, Spartans Fight Club · Kerala, India",
     quote: [
-      "Rijo took complete ownership of the core architecture for CareCrew. What impressed me most was his mastery over complex financial and booking workflows—engineering the multi-party Razorpay escrow and payout system with atomic Prisma transactions and HMAC-SHA256 verification so reliably that payments were seamless.",
-      "He also built our distributed checkout-locking and automated refund queue using BullMQ and Redis. His ability to deliver production-ready, mission-critical systems across React, Node.js, and PostgreSQL makes him a truly dependable full-stack engineer.",
+      "Rijo built the official platform for Spartans Fight Club, capturing the energy of martial arts and fitness with bold visuals, clear class schedules, and seamless membership inquiry flows.",
+      "The site works flawlessly across all devices and helped us double our trial class sign-ups within the first month. He is dependable, communicative, and passionate about quality.",
     ],
   },
   {
-    id: "project-management",
-    author: "Priya Sharma",
-    initial: "P",
-    role: "Product Lead, Enterprise Systems",
+    id: "dubai-consultant",
+    author: "Tariq Al-Mansoor",
+    initial: "T",
+    role: "Digital Solutions Director · Dubai, UAE",
     quote: [
-      "On our Role-Based Project Management platform, Rijo delivered an outstanding system used daily across 5 organizational roles. He designed clean RBAC boundaries and created an interactive drag-and-drop Kanban board with optimistic UI updates and real-time Socket.IO notifications that felt remarkably fluid.",
-      "His automated scheduling engine built with Node-Cron and Nodemailer flawlessly handled task deadlines and payment reminders. Rijo is proactive, understands real business requirements, and writes clean, scalable code.",
+      "Rijo is one of the most reliable full-stack developers I've collaborated with. His ability to deliver clean MERN architectures, secure authentication, and pixel-perfect UIs under tight deadlines is second to none.",
+      "He communicates proactively, requires minimal oversight, and always thinks two steps ahead about edge cases and scalability.",
     ],
   },
   {
-    id: "learnifi",
-    author: "Kiran Joseph",
+    id: "singapore-lead",
+    author: "Li Wei Tan",
+    initial: "L",
+    role: "VP of Engineering · Singapore",
+    quote: [
+      "What sets Rijo apart is his holistic approach to web applications. He doesn't just write frontend components; he understands how state management, API efficiency, and caching connect to produce zero-lag user experiences.",
+      "A fantastic teammate who brings positive energy, sharp technical judgment, and genuine craftsmanship to every feature.",
+    ],
+  },
+  {
+    id: "canada-tech",
+    author: "Emily Watson",
+    initial: "E",
+    role: "Senior Product Manager · Toronto, Canada",
+    quote: [
+      "Working with Rijo across time zones was completely frictionless. He turns complex wireframes into crisp, interactive web apps faster than most distributed teams I've worked with.",
+      "His commitment to accessible markup, clean code structure, and rapid iteration makes him a huge asset to any product team.",
+    ],
+  },
+  {
+    id: "bangalore-founder",
+    author: "Karthik Ramanathan",
     initial: "K",
-    role: "Technical Lead, EdTech Platforms",
+    role: "Co-founder & CTO · Bangalore, India",
     quote: [
-      "Working with Rijo on LearniFi was a fantastic experience. He designed and implemented the entire interactive exam engine supporting four distinct assessment types, automated certificate generation, and seamless integration with third-party AI grammar-analysis microservices.",
-      "His frontend execution in React paired with a high-throughput Express and MongoDB backend delivered zero-lag performance for users during live assessments. He learns rapidly, solves tough problems independently, and delivers top-tier work.",
+      "Rijo combines rapid feature delivery with rock-solid architectural fundamentals. Whether it's RESTful API design, database schemas, or responsive layouts, he writes maintainable code that scales smoothly.",
+      "Highly proactive and always up to date with modern web standards. I would gladly collaborate with him on any future initiative.",
+    ],
+  },
+  {
+    id: "usa-architect",
+    author: "Jason Miller",
+    initial: "J",
+    role: "Staff Frontend Architect · New York, USA",
+    quote: [
+      "Rijo has an exceptional eye for user experience and modern CSS craftsmanship. His interactive components feel tactile, lightweight, and engineered with real purpose.",
+      "He delivers polished code that passes rigorous reviews on the first try. Any team looking for a dedicated, high-output MERN developer would be lucky to have him.",
+    ],
+  },
+  {
+    id: "delhi-strategy",
+    author: "Aakash Mehra",
+    initial: "A",
+    role: "Tech Lead & Consultant · Delhi, India",
+    quote: [
+      "Rijo has a rare combination of strong frontend flair and solid backend discipline. He understands business requirements instantly and turns them into reliable, production-ready web platforms.",
+      "Consistent, dependable, and always driven by high engineering standards.",
     ],
   },
 ];
